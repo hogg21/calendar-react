@@ -8,12 +8,16 @@ import './common.scss';
 
 const App = () => {
 
-    const [weekStartDate, setWeekStartDate] = useState(getWeekStartDate(new Date()))
-    const weekDates = generateWeekRange(getWeekStartDate(weekStartDate));
+  const [weekStartDate, setWeekStartDate] = useState(getWeekStartDate(new Date()));
+
+  const today = () => {
+    setWeekStartDate(new Date())
+  }
+  const weekDates = generateWeekRange(getWeekStartDate(weekStartDate));
 
     return (
       <>
-        <Header />
+        <Header today={today}/>
         <Calendar weekDates={weekDates} />
       </>
     );
