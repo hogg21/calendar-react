@@ -2,12 +2,12 @@ import React from 'react';
 import { months } from '../../utils/dateUtils';
 import './header.scss';
 
-const Header = ({ today, weekDates, nextWeek, prevWeek }) => {
+const Header = ({ today, weekDates, nextWeek, prevWeek, openModal }) => {
   const week = weekDates.map((dayDate) => dayDate.getMonth());
   const oneMonth = week[0] === week[6]
   return (
     <header className="header">
-      <button className="button create-event-btn">
+      <button className="button create-event-btn" onClick={openModal}>
         <i className="fas fa-plus create-event-btn__icon"></i>Create
       </button>
       <div className="navigation">

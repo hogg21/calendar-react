@@ -6,7 +6,6 @@ const Sidebar = (props) => {
   const hours = Array(24)
     .fill()
     .map((val, index) => index);
-
   return (
     <div className="calendar__time-scale">
       {hours.map((hour, index) => (
