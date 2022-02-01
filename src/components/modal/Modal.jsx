@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 import './modal.scss';
 
-const Modal = ({ onClose }) => {
+const Modal = ({ onClose, onCreate, date, timeStart, endTime }) => {
   const [eventData, setEvent] = useState({
     title: '',
     description: '',
@@ -11,7 +11,6 @@ const Modal = ({ onClose }) => {
     endTime: '21:00',
     date: moment(new Date()).format('YYYY-MM-DD')
   })
-  const {title, description, date, timeStart, endTime } = eventData
   const handleChange = e => {
     const { name, value } = e.target;
     setEvent({
@@ -30,7 +29,7 @@ const Modal = ({ onClose }) => {
               name="title"
               placeholder="Title"
               className="event-form__field"
-              value={title}
+              value={eventData.title}
               onChange={handleChange}
             />
             <div className="event-form__time">
@@ -55,10 +54,10 @@ const Modal = ({ onClose }) => {
               name="description"
               placeholder="Description"
               className="event-form__field"
-              value={description}
+              value={eventData.description}
               onChange={handleChange}
             ></textarea>
-            <button type="submit" className="event-form__submit-btn">
+            <button type="submit" className="event-form__submit-btn" onClick={onCreate}>
               Create
             </button>
           </form>
