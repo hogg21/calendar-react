@@ -14,7 +14,7 @@ const Event = ({ height, marginTop, title, time, removeEvent, id }) => {
     setVisibility(!visibility)
   }
   return (
-    <div style={eventStyle} className="event">
+    <div style={eventStyle} className="event" onClick={toggleModalWindow}>
       <div className="event__title">{title}</div>
       <div className="event__time">{time}</div>
       {visibility && <DeleteEvent removeEvent={removeEvent} id={id}></DeleteEvent>}

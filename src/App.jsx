@@ -1,16 +1,16 @@
-import React, { Component, useState } from 'react';
+import React from 'react';
 import Header from './components/header/Header.jsx';
 import Calendar from './components/calendar/Calendar.jsx';
-import Modal from './components/modal/Modal.jsx';
-import { createTask, getTasks, deleteTask } from './gateway/eventsGateway.js';
+import Modal from './components/modal/Modal.jsx'
+import moment from 'moment';
 
 import { getWeekStartDate, generateWeekRange } from '../src/utils/dateUtils.js';
 
 import './common.scss';
 
 const App = () => {
-  const [weekStartDate, setWeekStartDate] = useState(getWeekStartDate(new Date()));
-  const [events, setEvents] = useState([]);
+  const [weekStartDate, setWeekStartDate] = React.useState(getWeekStartDate(new Date()));
+
   const today = () => {
     setWeekStartDate(new Date())
   }
@@ -19,46 +19,51 @@ const App = () => {
   }
   const prevWeek = () => {
     setWeekStartDate(new Date(weekStartDate.setDate(new Date(weekStartDate).getDate() - 7)))
-  }
 
-  const [isShow, setShow] = useState(false);
+  }
+  const [isShow, setShow] = React.useState(false)
+
   const showModal = () => {
     setShow(true)
   }
   const hideModal = () => {
     setShow(false)
   }
+  const [eventData, setEventData] = React.useState([])
 
-  const getEvents = () => {
-    getTasks().then((data) => {
-      setEvents(data)
-    })
-  }
-
-  const createEvent = eventData => {
-    createTask(eventData).then(() => getEvents())
-  }
-  const deleteTask = (id) => {
-    deleteTask(id).then(() => getEvents())
-  }
-
-  const newEvent = events.map((e) => {
-    const { title, date, description, timeStart, endTime } = e
-    setEvents({
+  const newTasks = eventData.map((e) => {
+    const { title, description, startTime, endTime, date } = e;
+    setEventData({
+      id,
       title,
       description,
-      dateFrom: new Date(`${date} ${timeStart}`),
+      dateFrom: new Date(`${date} ${startTime}`),
       dateTo: new Date(`${date} ${endTime}`)
     })
   })
+
   const weekDates = generateWeekRange(getWeekStartDate(weekStartDate));
+
     return (
       <>
-        <Header weekDates={weekDates} today={today} nextWeek={nextWeek} prevWeek={prevWeek} openModal={showModal} events={newEvent}/>
-        <Calendar weekDates={weekDates} events={newEvent}/>
-        {isShow && <Modal onClose={hideModal} onCreate={createEvent}></Modal>}
+        <Header
+          today={today}
+          nextWeek={nextWeek}
+          prevWeek={prevWeek}
+          weekDates={weekDates}
+          openModal={showModal}
+          events={newTasks}
+        />
+        <Calendar weekDates={weekDates} events={newTasks}/>
+        {isShow
+          && <Modal
+            onClose={hideModal}
+            date={moment(new Date()).format('YYYY-MM-DD')}
+            startTime={moment(new Date()).format('H:mm')}
+            endTime={moment(new Date()).format('H:mm')}
+          ></Modal>}
       </>
     );
-  }
+}
 
 export default App;

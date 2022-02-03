@@ -1,19 +1,19 @@
 import moment from 'moment';
-import React, { useState } from 'react';
+import React from 'react';
 
 import './modal.scss';
 
-const Modal = ({ onClose, onCreate, date, timeStart, endTime }) => {
-  const [eventData, setEvent] = useState({
+const Modal = ({ onClose, date, startTime, endTime }) => {
+  const [eventData, setEventData] = React.useState({
     title: '',
     description: '',
-    timeStart: '20:00',
-    endTime: '21:00',
+    startTime: moment(new Date()).format('H:mm'),
+    endTime: moment(new Date()).format('H:mm'),
     date: moment(new Date()).format('YYYY-MM-DD')
   })
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setEvent({
+    setEventData({
       ...eventData,
       [name]: value
     })
@@ -38,7 +38,7 @@ const Modal = ({ onClose, onCreate, date, timeStart, endTime }) => {
                 type="time"
                 name="startTime"
                 className="event-form__field"
-                value={timeStart}
+                value={startTime}
                 onChange={handleChange}
               />
               <span>-</span>
@@ -57,7 +57,7 @@ const Modal = ({ onClose, onCreate, date, timeStart, endTime }) => {
               value={eventData.description}
               onChange={handleChange}
             ></textarea>
-            <button type="submit" className="event-form__submit-btn" onClick={onCreate}>
+            <button type="submit" className="event-form__submit-btn">
               Create
             </button>
           </form>
