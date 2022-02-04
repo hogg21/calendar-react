@@ -23,7 +23,6 @@ const Day = ({ dataDay, dayEvents, date, events, onCreate, onDelete }) => {
             dataHour={hour}
             hourEvents={hourEvents}
             date={date}
-            events={events}
             onCreate={onCreate}
             onDelete={onDelete}
           />

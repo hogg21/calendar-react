@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from "react";
 
 const RedLine = () => {
+    let currentHour = new Date().getHours();
+    let currentMinutes = new Date().getMinutes()
     const [day, setDay] = useState({
-        marginTop: new Date().getHours() + new Date().getMinutes() * (60 - 1)
+        top: currentHour + currentMinutes * 59,
     })
     useEffect(() => {
         const currentTimeout = setInterval(() => {
+            currentHour = new Date().getHours()
+            currentMinutes = new Date().getMinutes()
             setDay({
-                marginTop: new Date().getHours() + new Date().getMinutes() * (60 - 1)
+                top: currentHour + currentMinutes * 59
            })
         }, 60000)
         return () => {
             clearInterval(currentTimeout)
         }
-    }, [day])
-
+    }, [])
     return (
         <div className="red-line" style={day}></div>
     )

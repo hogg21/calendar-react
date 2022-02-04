@@ -87,6 +87,7 @@ const App = () => {
             endTime={moment(new Date()).format('H:mm')}
             onDelete={deleteEvent}
             onCreate={createEvent}
+            events={newTasks}
           ></Modal>}
       </>
     );
