@@ -33,11 +33,26 @@ const App = () => {
   const [eventData, setEventData] = React.useState([])
 
   const fetchEventsList = () => {
-    getTasks().then((data) => setEventData(data))
+    getTasks().then((events) => {
+      const updatedListEvents = events.map((event) => ({
+        ...event,
+        dateFrom: new Date(event.dateFrom),
+        dateTo: new Date(event.dateTo)
+      }))
+      setEventData(updatedListEvents)
+    })
   }
 
-  const createEvent = taskData => {
-    createTask(taskData).then(() => fetchEventsList())
+  const createEvent = (taskData) => {
+    const { description, startTime, endTime, date, title } = taskData;
+    const newTasks = {
+      title,
+      description,
+      dateFrom: new Date(`${date} ${startTime}`),
+      dateTo: new Date(`${date} ${endTime}`)
+    }
+    createTask(newTasks).then(() => fetchEventsList())
+    .then(() => setShow(!isShow))
   }
 
   const deleteEvent = id => {
@@ -49,17 +64,6 @@ const App = () => {
   }, [])
   console.log(eventData);
 
-  const newTasks = eventData.map((event) => {
-    const { id, title, description, startTime, endTime, date } = event;
-    return {
-      id,
-      title,
-      description,
-      dateFrom: new Date(`${date} ${startTime}`),
-      dateTo: new Date(`${date} ${endTime}`)
-    }
- })
-
   const weekDates = generateWeekRange(getWeekStartDate(weekStartDate));
 
     return (
@@ -70,12 +74,12 @@ const App = () => {
           prevWeek={prevWeek}
           weekDates={weekDates}
           openModal={showModal}
-          events={newTasks}
+          events={eventData}
           onCreate={createEvent}
         />
         <Calendar
           weekDates={weekDates}
-          events={newTasks}
+          events={eventData}
           onCreate={createEvent}
           onDelete={deleteEvent}
         />
@@ -87,7 +91,7 @@ const App = () => {
             endTime='22:00'
             onDelete={deleteEvent}
             onCreate={createEvent}
-            events={newTasks}
+            events={eventData}
           ></Modal>}
       </>
     );

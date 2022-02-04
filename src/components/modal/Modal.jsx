@@ -47,7 +47,7 @@ const Modal = ({ onClose, date, startTime, endTime, onCreate }) => {
     ? alert("создаеться завершенное событие")
       : null;
     onCreate(task)
-    onClose(false)
+    // onClose(false)
   }
 
   const dataError = () => {
