@@ -10,7 +10,7 @@ import { createTask, getTasks, deleteTask } from './gateway/eventsGateway.js';
 import './common.scss';
 
 const App = () => {
-  const [weekStartDate, setWeekStartDate] = React.useState(getWeekStartDate(new Date()));
+  const [weekStartDate, setWeekStartDate] = React.useState(new Date());
 
   const today = () => {
     setWeekStartDate(new Date())
@@ -32,36 +32,35 @@ const App = () => {
   }
   const [eventData, setEventData] = React.useState([])
 
-  const fetchEventsList = () => {
+  const fetchList = () => {
     getTasks().then((events) => {
-      const updatedListEvents = events.map((event) => ({
+      const updatedList = events.map((event) => ({
         ...event,
         dateFrom: new Date(event.dateFrom),
         dateTo: new Date(event.dateTo)
       }))
-      setEventData(updatedListEvents)
+      setEventData(updatedList)
     })
   }
-
-  const createEvent = (taskData) => {
-    const { description, startTime, endTime, date, title } = taskData;
-    const newTasks = {
+  const createEvent = task => {
+    const { date, description, title, startTime, endTime } = task;
+    const newTask = {
       title,
       description,
       dateFrom: new Date(`${date} ${startTime}`),
       dateTo: new Date(`${date} ${endTime}`)
     }
-    createTask(newTasks).then(() => fetchEventsList())
-    .then(() => setShow(!isShow))
+    createTask(newTask).then(() => fetchList())
   }
 
   const deleteEvent = id => {
-    deleteTask(id).then(() => fetchEventsList())
+    deleteTask(id).then(() => fetchList())
   }
 
   React.useEffect(() => {
-    fetchEventsList()
+    fetchList()
   }, [])
+
   console.log(eventData);
 
   const weekDates = generateWeekRange(getWeekStartDate(weekStartDate));
@@ -74,14 +73,13 @@ const App = () => {
           prevWeek={prevWeek}
           weekDates={weekDates}
           openModal={showModal}
-          events={eventData}
           onCreate={createEvent}
         />
         <Calendar
           weekDates={weekDates}
-          events={eventData}
           onCreate={createEvent}
           onDelete={deleteEvent}
+          events={eventData}
         />
         {isShow
           && <Modal
@@ -91,7 +89,6 @@ const App = () => {
             endTime='22:00'
             onDelete={deleteEvent}
             onCreate={createEvent}
-            events={eventData}
           ></Modal>}
       </>
     );

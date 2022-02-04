@@ -3,7 +3,7 @@ import Hour from '../hour/Hour';
 import Redline from './Redline';
 import './day.scss';
 
-const Day = ({ dataDay, dayEvents, date, events, onCreate, onDelete }) => {
+const Day = ({ dataDay, dayEvents, date, onCreate, onDelete }) => {
   const hours = Array(24)
     .fill()
     .map((val, index) => index);
@@ -16,7 +16,6 @@ const Day = ({ dataDay, dayEvents, date, events, onCreate, onDelete }) => {
         const hourEvents = dayEvents.filter(
           (event) => event.dateFrom.getHours() === hour
         );
-
         return (
           <Hour
             key={dataDay + hour}

@@ -69,7 +69,7 @@ const Modal = ({ onClose, date, startTime, endTime, onCreate }) => {
         <div className="create-event">
           <button className="create-event__close-btn" onClick={onClose}>+</button>
           <form className="event-form" onSubmit={
-            (e) => { e.preventDefault(); realTimeInterval ? dataError() :  createNewTask(newTask)}}>
+            (e) => { e.preventDefault(); realTimeInterval ? dataError() : createNewTask(newTask)}}>
             <input
               type="text"
               name="title"
