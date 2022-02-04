@@ -24,6 +24,7 @@ const Week = ({ weekDates, events, onCreate, onDelete }) => {
             events={events}
             date={dayStart}
             onCreate={onCreate}
+            onDelete={onDelete}
           />
         );
       })}

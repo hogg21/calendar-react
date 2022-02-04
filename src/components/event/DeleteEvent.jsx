@@ -1,8 +1,8 @@
 import React from "react";
 
-const DeleteEvent = ({ removeEvent, id }) => {
+const DeleteEvent = ({ onDelete, id }) => {
     return (
-        <button className="delete-event-btn" onClick={() => removeEvent(id)}>Удалить</button>
+        <button className="delete-event-btn" onClick={() => onDelete(id)}>Удалить</button>
     )
 }
 export default DeleteEvent;

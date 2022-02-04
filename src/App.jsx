@@ -49,16 +49,16 @@ const App = () => {
   }, [])
   console.log(eventData);
 
-  const newTasks = eventData.map((e) => {
-    const { title, description, startTime, endTime, date } = e;
-    setEventData({
+  const newTasks = eventData.map((event) => {
+    const { id, title, description, startTime, endTime, date } = event;
+    return {
       id,
       title,
       description,
       dateFrom: new Date(`${date} ${startTime}`),
       dateTo: new Date(`${date} ${endTime}`)
-    })
-  })
+    }
+ })
 
   const weekDates = generateWeekRange(getWeekStartDate(weekStartDate));
 
@@ -70,12 +70,12 @@ const App = () => {
           prevWeek={prevWeek}
           weekDates={weekDates}
           openModal={showModal}
-          events={eventData}
+          events={newTasks}
           onCreate={createEvent}
         />
         <Calendar
           weekDates={weekDates}
-          events={eventData}
+          events={newTasks}
           onCreate={createEvent}
           onDelete={deleteEvent}
         />

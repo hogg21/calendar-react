@@ -3,7 +3,7 @@ import Hour from '../hour/Hour';
 import Redline from './Redline';
 import './day.scss';
 
-const Day = ({ dataDay, dayEvents, date, events }) => {
+const Day = ({ dataDay, dayEvents, date, events, onCreate, onDelete }) => {
   const hours = Array(24)
     .fill()
     .map((val, index) => index);
@@ -24,6 +24,8 @@ const Day = ({ dataDay, dayEvents, date, events }) => {
             hourEvents={hourEvents}
             date={date}
             events={events}
+            onCreate={onCreate}
+            onDelete={onDelete}
           />
         );
       })}

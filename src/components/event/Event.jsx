@@ -3,7 +3,7 @@ import DeleteEvent from './DeleteEvent';
 
 import './event.scss';
 
-const Event = ({ height, marginTop, title, time, removeEvent, id }) => {
+const Event = ({ height, marginTop, title, time, onDelete, id }) => {
   const eventStyle = {
     height,
     marginTop,
@@ -17,7 +17,7 @@ const Event = ({ height, marginTop, title, time, removeEvent, id }) => {
     <div style={eventStyle} className="event" onClick={toggleModalWindow}>
       <div className="event__title">{title}</div>
       <div className="event__time">{time}</div>
-      {visibility && <DeleteEvent removeEvent={removeEvent} id={id}></DeleteEvent>}
+      {visibility && <DeleteEvent onDelete={onDelete} id={id}></DeleteEvent>}
     </div>
   );
 };

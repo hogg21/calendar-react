@@ -39,7 +39,7 @@ const Modal = ({ onClose, date, startTime, endTime, onCreate }) => {
             Date.parse(newTask.dateFrom) > Date.parse(el.dateTo)
           );
         });
-  const trueIntervalTask =
+  const realTimeInterval =
   intervalEvent > 0 && originalTime && intervalEvent < 6 && title !== "";
 
   const createNewTask = task => {
@@ -47,6 +47,7 @@ const Modal = ({ onClose, date, startTime, endTime, onCreate }) => {
     ? alert("создаеться завершенное событие")
       : null;
     onCreate(task)
+    onClose(false)
   }
 
   const dataError = () => {
@@ -67,7 +68,8 @@ const Modal = ({ onClose, date, startTime, endTime, onCreate }) => {
       <div className="modal__content">
         <div className="create-event">
           <button className="create-event__close-btn" onClick={onClose}>+</button>
-          <form className="event-form">
+          <form className="event-form" onSubmit={
+            (e) => { e.preventDefault(); realTimeInterval ? dataError() :  createNewTask(newTask)}}>
             <input
               type="text"
               name="title"
@@ -101,7 +103,7 @@ const Modal = ({ onClose, date, startTime, endTime, onCreate }) => {
               value={eventData.description}
               onChange={handleChange}
             ></textarea>
-            <button type="submit" className="event-form__submit-btn" onClick={(e) => { e.preventDefault(); trueIntervalTask ? createNewTask(task) : dataError()}}>
+            <button type="submit" className="event-form__submit-btn">
               Create
             </button>
           </form>
