@@ -21,7 +21,6 @@ export const getTasks = () => {
         headers: {
             'Content-Type': 'application/json; charset=utf-8'
         },
-        body: JSON.stringify(taskData)
     }).then(response => {
         if (response.ok) {
             return response.json()

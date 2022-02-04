@@ -5,11 +5,11 @@ import Event from '../event/Event';
 import { formatMins } from '../../../src/utils/dateUtils.js';
 import Modal from '../modal/Modal';
 
-const Hour = ({ dataHour, hourEvents, onClose, date, events, id }) => {
+const Hour = ({ dataHour, hourEvents, date, events, id }) => {
   const [visibility, setVisibility] = React.useState(false)
 
   const showModal = () => {
-    setVisibility(!visibility)
+    setVisibility(true)
   }
   const timeStart = dataHour < 10 ? `0${dataHour}:00` : `${dataHour}:00`;
   const timeEnd = dataHour < 9 ? `0${dataHour + 1}:00` : `${dataHour + 1}:00`;
@@ -20,7 +20,7 @@ const Hour = ({ dataHour, hourEvents, onClose, date, events, id }) => {
       {visibility
         &&
         <Modal
-          onClose={onClose}
+          onClose={setVisibility}
           date={moment(date).format('YYYY-MM-DD')}
           startTime={timeStart}
           endTime={timeEnd}

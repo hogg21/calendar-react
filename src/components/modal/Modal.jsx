@@ -1,9 +1,10 @@
 import moment from 'moment';
 import React from 'react';
+import events from '../../gateway/events';
 
 import './modal.scss';
 
-const Modal = ({ onClose, date, startTime, endTime }) => {
+const Modal = ({ onClose, date, startTime, endTime, onCreate }) => {
   const [eventData, setEventData] = React.useState({
     title: '',
     description: '',
@@ -18,6 +19,49 @@ const Modal = ({ onClose, date, startTime, endTime }) => {
       [name]: value
     })
   }
+  const { id, title, description } = eventData;
+  const newTask = {
+    id,
+    title,
+    description,
+    dateFrom: new Date(`${date} ${startTime}`),
+    dateTo: new Date(`${date} ${endTime}`),
+  };
+
+  const intervalEvent = Date.parse(newTask.dateTo) - Date.parse(newTask.dateFrom) / (60 * 60 * 1000);
+
+  const originalTime =
+    events === []
+      ? true
+      : events.every((el) => {
+          return (
+            Date.parse(newTask.dateTo) < Date.parse(el.dateFrom) ||
+            Date.parse(newTask.dateFrom) > Date.parse(el.dateTo)
+          );
+        });
+  const trueIntervalTask =
+  intervalEvent > 0 && originalTime && intervalEvent < 6 && title !== "";
+
+  const createNewTask = task => {
+    const time = Date.parse(newTask.dateTo) < Date.parse(new Date())
+    ? alert("создаеться завершенное событие")
+      : null;
+    onCreate(task)
+  }
+
+  const dataError = () => {
+    const errorOriginal = !originalTime
+      ? "Два события не могут пересекаться по времени "
+      : "";
+    const errorOneDay =
+    intervalEvent > 0
+        ? ""
+        : "Событие должно начаться и закончиться в пределах одного дня ";
+    const errorMaxInterval =
+    intervalEvent < 6 ? "" : "Одно событие не может быть дольше 6 часов ";
+    const notTitle = title !== "" ? "" : "Заполни заголовок ";
+    return alert(notTitle + errorOriginal + errorOneDay + errorMaxInterval);
+  };
   return (
     <div className="modal overlay">
       <div className="modal__content">
@@ -57,7 +101,7 @@ const Modal = ({ onClose, date, startTime, endTime }) => {
               value={eventData.description}
               onChange={handleChange}
             ></textarea>
-            <button type="submit" className="event-form__submit-btn">
+            <button type="submit" className="event-form__submit-btn" onClick={(e) => { e.preventDefault(); trueIntervalTask ? createNewTask(task) : dataError()}}>
               Create
             </button>
           </form>
