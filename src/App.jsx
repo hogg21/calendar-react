@@ -5,6 +5,7 @@ import Modal from './components/modal/Modal.jsx'
 import moment from 'moment';
 
 import { getWeekStartDate, generateWeekRange } from '../src/utils/dateUtils.js';
+import { createTask, getTasks, deleteTask } from './gateway/eventsGateway.js';
 
 import './common.scss';
 
@@ -31,6 +32,23 @@ const App = () => {
   }
   const [eventData, setEventData] = React.useState([])
 
+  const fetchEventsList = () => {
+    getTasks().then((data) => setEventData(data))
+  }
+
+  const createEvent = taskData => {
+    createTask(taskData).then(() => fetchEventsList())
+  }
+
+  const deleteEvent = id => {
+    deleteTask(id).then(() => fetchEventsList())
+  }
+
+  React.useEffect(() => {
+    fetchEventsList()
+  }, [])
+  console.log(eventData);
+
   const newTasks = eventData.map((e) => {
     const { title, description, startTime, endTime, date } = e;
     setEventData({
@@ -52,15 +70,23 @@ const App = () => {
           prevWeek={prevWeek}
           weekDates={weekDates}
           openModal={showModal}
-          events={newTasks}
+          events={eventData}
+          onCreate={createEvent}
         />
-        <Calendar weekDates={weekDates} events={newTasks}/>
+        <Calendar
+          weekDates={weekDates}
+          events={eventData}
+          onCreate={createEvent}
+          onDelete={deleteEvent}
+        />
         {isShow
           && <Modal
             onClose={hideModal}
             date={moment(new Date()).format('YYYY-MM-DD')}
             startTime={moment(new Date()).format('H:mm')}
             endTime={moment(new Date()).format('H:mm')}
+            onDelete={deleteEvent}
+            onCreate={createEvent}
           ></Modal>}
       </>
     );
