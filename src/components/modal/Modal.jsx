@@ -21,11 +21,11 @@ const Modal = ({ onClose, date, startTime, endTime, onCreate }) => {
   }
   const { id, title, description } = eventData;
   const newTask = {
-    id,
     title,
-    description,
     dateFrom: new Date(`${date} ${startTime}`),
     dateTo: new Date(`${date} ${endTime}`),
+    id,
+    description,
   };
 
   const intervalEvent = Date.parse(newTask.dateTo) - Date.parse(newTask.dateFrom) / (60 * 60 * 1000);
@@ -47,7 +47,7 @@ const Modal = ({ onClose, date, startTime, endTime, onCreate }) => {
     ? alert("создаеться завершенное событие")
       : null;
     onCreate(task)
-    onClose(false)
+    // onClose(false)
   }
 
   const dataError = () => {
