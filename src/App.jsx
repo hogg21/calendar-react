@@ -83,8 +83,8 @@ const App = () => {
           && <Modal
             onClose={hideModal}
             date={moment(new Date()).format('YYYY-MM-DD')}
-            startTime={moment(new Date()).format('H:mm')}
-            endTime={moment(new Date()).format('H:mm')}
+            startTime='21:00'
+            endTime='22:00'
             onDelete={deleteEvent}
             onCreate={createEvent}
             events={newTasks}
