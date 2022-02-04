@@ -1,6 +1,6 @@
 import React from 'react';
 import Hour from '../hour/Hour';
-import Redline from './Redline';
+import RedLine from './RedLine';
 import './day.scss';
 
 const Day = ({ dataDay, dayEvents, date, onCreate, onDelete }) => {
@@ -10,7 +10,7 @@ const Day = ({ dataDay, dayEvents, date, onCreate, onDelete }) => {
   const currentDay = dataDay === new Date().getDate();
   return (
     <div className="calendar__day" data-day={dataDay}>
-      {currentDay && <Redline></Redline>}
+      {currentDay && <RedLine></RedLine>}
       {hours.map((hour) => {
         //getting all events from the day we will render
         const hourEvents = dayEvents.filter(

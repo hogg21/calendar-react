@@ -22,4 +22,4 @@ const RedLine = () => {
         <div className="red-line" style={day}></div>
     )
 }
-export default RedLine
+export default RedLine;
