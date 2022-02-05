@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import moment from 'moment';
 
 import Event from '../event/Event';
@@ -11,6 +11,7 @@ const Hour = ({ dataHour, hourEvents, date, onCreate, onDelete, onClose, events 
   const showModal = () => {
     setVisibility(true)
   }
+ 
   const timeStart = dataHour < 10 ? `0${dataHour}:00` : `${dataHour}:00`;
   const timeEnd = dataHour < 9 ? `0${dataHour + 1}:00` : `${dataHour + 1}:00`;
   // debugger;
