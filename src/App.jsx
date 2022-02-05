@@ -5,7 +5,7 @@ import Modal from './components/modal/Modal.jsx'
 import moment from 'moment';
 
 import { getWeekStartDate, generateWeekRange } from '../src/utils/dateUtils.js';
-import { createTask, getTasks, deleteTask } from './gateway/eventsGateway.js';
+import { createTask, fetchEvents, deleteTask } from './gateway/eventsGateway.js';
 
 import './common.scss';
 
@@ -32,8 +32,8 @@ const App = () => {
   }
   const [eventData, setEventData] = React.useState([])
 
-  const fetchList = () => {
-    getTasks().then((events) => {
+  const getEvents = () => {
+    fetchEvents().then((events) => {
       const updatedList = events.map((event) => ({
         ...event,
         dateFrom: new Date(event.dateFrom),
@@ -42,25 +42,26 @@ const App = () => {
       setEventData(updatedList)
     })
   }
-  const createEvent = task => {
-    const { date, description, title, startTime, endTime } = task;
-    const newTask = {
+  const createEvent = (task) => {
+    createTask(task).then(() => getEvents())
+  }
+
+  const deleteEvent = id => {
+    deleteTask(id).then(() => getEvents())
+  }
+
+  React.useEffect(() => {
+    getEvents()
+  }, [])
+  const newTasks = eventData.map((event) => {
+    const { date, description, title, startTime, endTime } = event;
+    return {
       title,
       description,
       dateFrom: new Date(`${date} ${startTime}`),
       dateTo: new Date(`${date} ${endTime}`)
     }
-    createTask(newTask).then(() => fetchList())
-  }
-
-  const deleteEvent = id => {
-    deleteTask(id).then(() => fetchList())
-  }
-
-  React.useEffect(() => {
-    fetchList()
-  }, [])
-
+  })
   console.log(eventData);
 
   const weekDates = generateWeekRange(getWeekStartDate(weekStartDate));

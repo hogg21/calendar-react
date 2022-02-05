@@ -14,19 +14,19 @@ export const createTask = taskData => {
     })
 }
 
-export const getTasks = () => {
+export const fetchEvents = () => {
     return fetch(baseUrl, {
         method: 'GET',
         headers: {
-            'Content-Type': 'application/json; charset=utf-8'
-        },
-    }).then(response => {
-        if (response.ok) {
-            return response.json()
+            'Content-Type': 'application/json'
         }
-        throw new Error(alert('Internal Server Error. Cant display events'))
+    }).then(res => {
+        if (res.ok) {
+            return res.json();
+        }
     })
 }
+
 
 export const deleteTask = taskId => {
     return fetch(`${baseUrl}/${taskId}`, {

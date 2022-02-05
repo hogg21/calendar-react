@@ -5,7 +5,7 @@ import Event from '../event/Event';
 import { formatMins } from '../../../src/utils/dateUtils.js';
 import Modal from '../modal/Modal';
 
-const Hour = ({ dataHour, hourEvents, date, onCreate, onDelete, onClose }) => {
+const Hour = ({ dataHour, hourEvents, date, onCreate, onDelete, onClose, events }) => {
   const [visibility, setVisibility] = React.useState(false)
 
   const showModal = () => {
@@ -26,6 +26,7 @@ const Hour = ({ dataHour, hourEvents, date, onCreate, onDelete, onClose }) => {
           endTime={timeEnd}
           onCreate={onCreate}
           onDelete={onDelete}
+          events={events}
         >
         </Modal>}
       {hourEvents.map(({ id, dateFrom, dateTo, title }) => {
@@ -47,6 +48,7 @@ const Hour = ({ dataHour, hourEvents, date, onCreate, onDelete, onClose }) => {
             id={id}
             onCreate={onCreate}
             onDelete={onDelete}
+            events={events}
           />
         );
       })}
