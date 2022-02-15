@@ -43,11 +43,11 @@ const Modal = ({ onClose, date, startTime, endTime, onCreate }) => {
   intervalEvent > 0 && originalTime && intervalEvent < 6 && title !== "";
 
   const createNewTask = task => {
-    const time = Date.parse(newTask.dateTo) < Date.parse(new Date())
-    ? alert("создаеться завершенное событие")
-      : null;
+    if (Date.parse(newTask.dateTo) < Date.parse(new Date())) {
+      return alert("создаеться завершенное событие")
+    }
     onCreate(task)
-    // onClose(false)
+    onClose(false)
   }
 
   const dataError = () => {
@@ -63,13 +63,17 @@ const Modal = ({ onClose, date, startTime, endTime, onCreate }) => {
     const notTitle = title !== "" ? "" : "Заполни заголовок ";
     return alert(notTitle + errorOriginal + errorOneDay + errorMaxInterval);
   };
+
+  const handleSubmit = e => {
+    e.preventDefault(); realTimeInterval ? dataError() : createNewTask(newTask)
+  }
   return (
     <div className="modal overlay">
       <div className="modal__content">
         <div className="create-event">
           <button className="create-event__close-btn" onClick={onClose}>+</button>
           <form className="event-form" onSubmit={
-            (e) => { e.preventDefault(); realTimeInterval ? dataError() : createNewTask(newTask)}}>
+            (e) => handleSubmit(e)}>
             <input
               type="text"
               name="title"

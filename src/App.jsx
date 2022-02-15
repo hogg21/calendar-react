@@ -3,6 +3,7 @@ import Header from './components/header/Header.jsx';
 import Calendar from './components/calendar/Calendar.jsx';
 import Modal from './components/modal/Modal.jsx'
 import moment from 'moment';
+import Hour from './components/hour/Hour.jsx';
 
 import { getWeekStartDate, generateWeekRange } from '../src/utils/dateUtils.js';
 import { createTask, fetchEvents, deleteTask } from './gateway/eventsGateway.js';
@@ -27,7 +28,7 @@ const App = () => {
   const showModal = () => {
     setShow(true)
   }
-  const hideModal = () => {
+  const closeModal = () => {
     setShow(false)
   }
   const [eventData, setEventData] = React.useState([])
@@ -62,8 +63,6 @@ const App = () => {
       dateTo: new Date(`${date} ${endTime}`)
     }
   })
-  console.log(eventData);
-
   const weekDates = generateWeekRange(getWeekStartDate(weekStartDate));
 
     return (
@@ -84,10 +83,10 @@ const App = () => {
         />
         {isShow
           && <Modal
-            onClose={hideModal}
+            onClose={closeModal}
             date={moment(new Date()).format('YYYY-MM-DD')}
-            startTime='21:00'
-            endTime='22:00'
+            startTime={moment(new Date()).format('H:mm')}
+            endTime={moment(new Date()).add(15, 'minutes').format('H:mm')}
             onDelete={deleteEvent}
             onCreate={createEvent}
           ></Modal>}
